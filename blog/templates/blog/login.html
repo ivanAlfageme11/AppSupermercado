@@ -1,0 +1,39 @@
+{% extends 'blog/base.html' %}
+<!DOCTYPE html>
+<html lang="es-es">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Login</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </head>
+  {% block content %}
+    <body style="background-color: lightgray;">
+      <div class="card position-absolute top-50 start-50 translate-middle border border-2 border-warning " style="width: 18rem;">
+        <p class=" card-header position-relative top-0 bg-success text-warning text-center  "> 
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle " viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg> 
+          <u>Inicio de sesion</u> 
+        </p>
+        <div class="card-body">           
+          <form method="post" action="/auth/" autocomplete="off">
+            {% csrf_token %}
+            <label class="mt-1" for="mail">Mail</label><br>
+            <input class="form-control border border-dark"type="email" name="mail"required><br>
+            <label class="mt-1"for="contr">Contrasena</label><br>
+            <input class="form-control border border-dark"type="password" name="contr"required><br>
+            <input type="checkbox">Recordarme<br>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <input class="mt-3 btn btn-primary btn-secondary btn-sm"type="submit" name="env" text="Enviar">
+            </div>
+          </form>
+        </div>
+      </div>
+    </body>
+  {% endblock %}
+</html>

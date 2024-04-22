@@ -1,0 +1,32 @@
+<div class="modal fade" id="modal_anadir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Añadir usuarios</h5>
+        <button type="button" class="btn-close" id="cerrarHAn" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h1 style="margin-left:25px;">Rellena tus datos</h1>
+        <div style="width: 50%;margin-left:25px;">
+          <form class="form" autocomplete="off">       
+            <label class="mt-1" for="nombreCL">Nombre</label>
+            <input class="form-control border border-dark"type="text" autocomplete="off" id="nombreCl"required>
+            <label class="mt-1" for="apellidoCl" >Apellidos</label>
+            <input class="form-control border border-dark"type="text" autocomplete="off" id="apellidoCl"required>
+            <label class="mt-1" for="mailCL">Mail</label><br>
+            <input class="form-control border border-dark"type="email" autocomplete="off" id="mailCl"required>
+            <label class="mt-1"for="contrCL">Contraseña</label><br>
+            <input class="form-control border border-dark"type="password" autocomplete="new-password" id="contrCL"required>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cerrarAn">Close</button>
+        <button type="button" class="btn btn-primary" id="guardarAn">Save changes</button>
+      </div>
+    </div>
+  </div>
+  <!-- {% block scriptBlock %}
+    <script src="{% static 'js/clientes/crear_usuario.js' %}"></script>  
+  {% endblock %} -->
+</div>

@@ -1,0 +1,56 @@
+<div class="modal fade" id="modal_editar"tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalEd">Editar usuarios</h5>
+            <button type="button" class="btn-close" id="cerrarHED" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form autocomplete="off" id="formEdit">
+            
+                <tr>
+                    <td>
+                        <label class="mt-1" for="Ed_username">Username</label>
+                        <input class="form-control border border-dark" type="text" autocomplete="off" id="Ed_username"required>
+                        
+                    </td>
+                    <td>
+                        <label class="mt-1" for="Ed_mail">Mail</label> 
+                        <input class="form-control border border-dark" type="mail" autocomplete="off" id="Ed_mail"required>
+                        
+                    </td>
+                </tr><br>
+                <tr>
+                    <td>
+                        <label class="mt-1" for="Ed_nombre">Nombre</label>
+                        <input class="form-control border border-dark"type="text" autocomplete="off" id="Ed_nombre"required>
+                    </td>
+                    <td>
+                        <label class="mt-1" for="Ed_apellido">Apellidos</label>
+                        <input class="form-control border border-dark"type="text" autocomplete="off" id="Ed_apellido"required>
+                    </td>
+                </tr><br>
+                <tr>
+                    <td>
+                        <label class="mt-1" for="Ed_contraseña">Contraseña</label>
+                        <input class="form-control border border-dark"type="password" autocomplete="new-password" id="Ed_contraseña"required>
+                    </td>
+                    <td>
+                        <label class="mt-1" for="adminGroup">Admin</label><br>
+                        <input type="radio" id="Admintrue" name="fav_language" value='True'>
+                        <label for="Admintrue">True</label><br>
+                        <input type="radio" id="Adminfalse" name="fav_language" value='False'>
+                        <label for="Adminfalse">false</label><br>
+                    </td>
+                </tr>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="clear">Limpiar</button>
+                    <button type="button" class="btn btn-secondary" id="cerrarED">Close</button>
+                    <button type="button" class="btn btn-primary" id="guardarED">Guardar</button>
+                  </div>
+            </form>
+        </div>
+          
+        </div>
+      </div>
+</div>

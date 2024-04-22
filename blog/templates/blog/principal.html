@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="es-ES">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- Boostrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <!-- Handsontables -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable@12.0/dist/handsontable.full.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable@12.0/dist/handsontable.full.min.css" /> 
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css" rel="stylesheet">
+  </head>
+  {% block content %}
+    <body style="background-color: lightgray;"> 
+      <div>
+        <div id="example" class="hot "style="margin-left:25%;margin-top:50px; "></div>
+        <list id="respuesta"></list>
+        {% block scriptBlock %}
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+          
+        
+          </div>
+
+          <div class="d-flex flex-row justify-content-center mt-3">
+            <button class="btn btn-success btn-lg mx-3" id="Añadir">Añadir</button>
+            <button class="btn btn-danger btn-lg mx-3"id="Borrar">Borrar</button>
+            <button style="width:100%;height:100%;"data-id="'+datos[row][0]+'" class="editarEVNT">Editar</button>
+            <!-- <button class="btn btn-warning btn-lg mx-3"id="Editar">Editar</button> -->
+
+            
+            <script src="{% static 'js/clientes/tabla_clientes.js' %}"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script src="{% static 'js/clientes/anadirClientes.js' %}"></script>
+            <script src="{% static 'js/clientes/borrarClientes.js' %}"></script>
+            <script src="{% static 'js/clientes/editarClientes.js' %}"></script>
+            <script src="{% static 'js/clientes/crear_usuario.js' %}"></script> 
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.all.min.js"></script>
+          </div>  
+        {% endblock %}
+      </div>
+    </body>
+  {% endblock %}
+    
+</html>
+
