@@ -23,23 +23,23 @@ function validarmail(mail){
 }
 
 $(document).ready(function() {
-    
-    var button = document.querySelector('.editarEVNT');
-    button.addEventListener('click', function(){
-        var row=0
-        console.log('l')
-        $.ajax({//peticion ajax del html
-            url:"Editar/",
-            type:"GET",
-            data:{},//Lo que escriba dentro se pasara al .py como parametro 
-            dataType:"json",
-            success:function(data){
-                if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
-                    $('body').append(data['contenido'])//añade al body el contenido del html
-                    abrirmodalEditar(row)//Ejecuta la funcion abrirmodal
+    // $('#modal_editar').modal({backdrop: 'static', keyboard: false})
+    setTimeout(function(){
+        $('.editarEVNT').on('click',function(){
+            var row=$(this).data("row");
+            console.log(row)
+            $.ajax({//peticion ajax del html
+                url:"Editar/",
+                type:"GET",
+                data:{},//Lo que escriba dentro se pasara al .py como parametro 
+                dataType:"json",
+                success:function(data){
+                    if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
+                        $('body').append(data['contenido'])//añade al body el contenido del html
+                        abrirmodalEditar(row)//Ejecuta la funcion abrirmodal
+                    }
                 }
-            }
-        });
+            });
     });
 });
 var id;
@@ -174,7 +174,6 @@ function Editar(){
                     showConfirmButton: false,
                     timer: 2500
                 });
-                console.log(data.ok)
                 $('#modal_editar').modal('hide');//Cierra el modal
                 $('#modal_editar').remove();
                 hot.destroy();
