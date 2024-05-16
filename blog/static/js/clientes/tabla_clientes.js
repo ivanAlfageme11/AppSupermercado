@@ -4,6 +4,7 @@ colColaps=[]
 var hot=null;
 datos=[]
 colapsed=true
+count=0
 expanded=false
 function generartabla(dat){
   var container = document.getElementById('example');
@@ -27,7 +28,7 @@ function generartabla(dat){
       nestedHeaders: [
         ['id', {label: 'Nombre Completo', colspan: 2},{label: 'Email', colspan: 1},{label: 'Datos adicionales', colspan: 4},'Opciones',],
         
-        ['id','Nombre', 'Apellido', '', 'Admin','Active', 'Last_Login','Create date', '']
+        ['id','Nombre', 'Apellido', 'Admin','Active', 'Last_Login','Create date', '']
       ],
       collapsibleColumns: true,
 
@@ -50,23 +51,22 @@ function generartabla(dat){
       ],
       afterDropdownMenuShow(instance) {
         var filters = instance.hot.getPlugin('filters');
-        console.log(filters.valueComponent)
         filters.components.get('filter_by_value').elements[0].onClearAllClick({preventDefault: function() {}});
       },
       licenseKey: 'non-commercial-and-evaluation',
-      afterChange: (changes) => {
-        changes?.forEach(([row, prop, oldValue, newValue]) => {
-          console.log(datos[prop][row])
-          console.log(oldValue)
-          if(datos[prop][row]==oldValue){
-            datos[prop][row]=newValue
-            console.log(datos[prop][row])
-          }
-          else{
-            console.log('no coinciden')
-          }
-        });
-      }, // for non-commercial use only
+      // afterChange: (changes) => {
+      //   changes?.forEach(([row, prop, oldValue, newValue]) => {
+      //     console.log(datos[prop][row])
+      //     console.log(oldValue)
+      //     if(datos[prop][row]==oldValue){
+      //       datos[prop][row]=newValue
+      //       console.log(datos[prop][row])
+      //     }
+      //     else{
+      //       console.log('no coinciden')
+      //     }
+      //   });
+      // }, // for non-commercial use only
   });
   var filters = hot.getPlugin('filters');
   
@@ -95,24 +95,22 @@ function generartabla(dat){
   }
   //Actualiza lista con las columnas que estan colapsadas
   Handsontable.hooks.add('afterColumnCollapse',function(currentCollapsedColumns, destinationCollapsedColumns, collapsePossible, successfullyCollapsed){
-    columnasColapsadas = destinationCollapsedColumns;
-    console.log("Columnas colapsadas: ",destinationCollapsedColumns)    
+    columnasColapsadas = destinationCollapsedColumns;  
 });
 //Despues de que una columna se expanda guarda las columnas colapsadas en una lista
 Handsontable.hooks.add('afterColumnExpand',function(currentCollapsedColumns, destinationCollapsedColumns, expandPossible, successfullyExpanded){
     
     columnasColapsadas = destinationCollapsedColumns;
-    console.log("Columnas colapsadas: ",columnasColapsadas)        
 });	
-
-  console.log('aaa') 
+Handsontable.hooks.add('afterRender',function(){
+    
+  cargarBotones(); 
+});	
   
-  
-  cargarBotones();
 }
 function datos_clientes(){
   $.ajax({
-    url: "datos_cliente/",//url de la funcion
+    url: "http://127.0.0.1:9000/tabla/",//url de la funcion
     type: "GET",//tipo de transaccion de datos
     data: {},
     dataType: 'json',//tipo de datos como pasamos un diccionario el tipo es json
@@ -207,61 +205,63 @@ $(document).ready(function() {
     // });
 });
 function cargarBotones(){
-  setTimeout(function(){
-    $('.editarEVNT').on('click',function(){
-        var row=$(this).data("row");
-        console.log(row)
-        $.ajax({//peticion ajax del html
-            url:"Editar/",
-            type:"GET",
-            data:{},//Lo que escriba dentro se pasara al .py como parametro 
-            dataType:"json",
-            success:function(data){ 
-                if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
-                    $('body').append(data['contenido'])//añade al body el contenido del html
-                    abrirmodalEditar(row)//Ejecuta la funcion abrirmodal
-                }
-            }
-        }); 
-      })
-  },200);
-setTimeout(function(){
-  $('.borrarEVNT').on('click',function(){
+  // Desvincula los eventos existentes antes de adjuntar nuevos eventos
+  $('.editarEVNT').off('click').on('click',function(){
     var row=$(this).data("row");
+    console.log(row)
     $.ajax({//peticion ajax del html
-      url:"Borrar/",
-      type:"GET",
-      data:{},//Lo que escriba dentro se pasara al .py como parametro 
-      dataType:"json",
-      success:function(data){
-          if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
-              $('body').append(data['contenido'])//añade al body el contenido del html
-              abrirmodalBorrar(row)//Ejecuta la funcion abrirmodal
-          }
-      }
-    });
-  })
-},200)
+        url:"Editar/",
+        type:"GET",
+        data:{},//Lo que escriba dentro se pasara al .py como parametro 
+        dataType:"json",
+        success:function(data){ 
+            if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
+                $('body').append(data['contenido'])//añade al body el contenido del html
+                abrirmodalEditar(row)//Ejecuta la funcion abrirmodal
+            }
+        }
+    }); 
+  });
+
+$('.borrarEVNT').off('click').on('click',function(){
+  var row=$(this).data("row");
+  console.log(row)
+  $.ajax({//peticion ajax del html
+    url:"Borrar/",
+    type:"GET",
+    data:{},//Lo que escriba dentro se pasara al .py como parametro 
+    dataType:"json",
+    success:function(data){
+        if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
+            $('body').append(data['contenido'])//añade al body el contenido del html
+            abrirmodalBorrar(row)//Ejecuta la funcion abrirmodal
+        }
+    }
+  });
+});
+
 }
 function header(){
   colColaps=columnasColapsadas
-  
   hot.getPlugin('collapsibleColumns').collapseAll();
   if(colColaps.length!=0){
+    count++
     console.log(colColaps)
     hot.getPlugin('collapsibleColumns').expandAll();
     for(i=0;i<colColaps.length;i++){
       n=colColaps[i]
-      console.log("columna del for",n)
       hot.getPlugin('collapsibleColumns').collapseSection({row: -2, col: (n-1)});
     }
   }
+  else{
+    if(count!=0)
+      hot.getPlugin('collapsibleColumns').expandAll();
+  }
 }
 function actualizar(){
-  hot.destroy(); 
-       
-      datos_clientes();
-      cerrarHeader();
+  hot.removeHook('afterColumnCollapse','afterColumnExpand','afterRender');
+  hot.destroy()
+  datos_clientes();;
 }
 
   

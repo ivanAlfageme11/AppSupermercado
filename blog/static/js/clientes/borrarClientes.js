@@ -1,28 +1,6 @@
-
-$(document).ready(function() {
-    
-    var botonB = document.getElementById("Borrar");
-    botonB.addEventListener("click", function(){ //Evento onclick 
-        console.log("click")
-        $.ajax({//peticion ajax del html
-            url:"Borrar/",
-            type:"GET",
-            data:{},//Lo que escriba dentro se pasara al .py como parametro 
-            dataType:"json",
-            success:function(data){
-                if(data.ok!=undefined){  //evalua si los datos se han enviado correctamente               
-                    $('body').append(data['contenido'])//añade al body el contenido del html
-                    abrirmodalBorrar()//Ejecuta la funcion abrirmodal
-                }
-          }
-        });
-        
-        
-    });
-});
-function abrirmodalBorrar(url){//Funcion que abre el modal
+function abrirmodalBorrar(row){//Funcion que abre el modal
     $('#modal_borrar').modal('show');//abre el modal con ese id
-    clientes();
+    clientes(row);
     $('#cerrarHB').click(function(){//Cuando se pulse el boton de cerrar se cerrara el modal y lo eliminara del html principal
         $('#modal_borrar').modal('hide');
         $('#modal_borrar').remove();//elimina el div del modal en el html
@@ -37,29 +15,22 @@ function abrirmodalBorrar(url){//Funcion que abre el modal
         $('#modal_borrar').remove();//elimina el div del modal en el html
     })
 }
-function clientes(){
+function clientes(row){
     $.ajax({
-        url: "datos_cliente/",//url de la funcion
+        url: "http://127.0.0.1:9000/tabla/",//url de la funcion
         type: "GET",//tipo de transaccion de datos
         data: {},
         dataType: 'json',//tipo de datos como pasamos un diccionario el tipo es json
         success: function (data) {//ejecuat una funcion que tiene como parametros los datos recogidos
-            if(data.ok!=undefined){//Si los datos no estan vacios genera la tabla
-                let usuarios = document.getElementById('clientes');//Busca en el formulario el cuadro de texto del codigo postal 
+            console.log(data)
+            //Si los datos no estan vacios genera la tabla 
                 ListaAux=data['ok'];//Crea una lista auxiliar donde almacena los usuarios de la clave ok
-                var count = ListaAux.length;
-                for(i=0;i<count;i++){
-                    user=ListaAux[i]
-                    console.log(user)
-                    const opt1 = document.createElement("option");//Crea la opcion
-                    opt1.value =user[3];
-                    opt1.text = (user[3]);
-                    usuarios.add(opt1,null);//Añade la opcion al select
-                }
-            }
-            else{
-                console.log("No hay clientes")
-            }
+                console.log(data['ok'])
+                user=ListaAux[row]
+                console.log(user)
+                Tuser=document.getElementById('usuario')
+                Tuser.value=user[3]
+        
 
         },error: function (xhr, ajaxOptions, thrownError) {
             console.log(xhr);
@@ -68,23 +39,22 @@ function clientes(){
         }
     });
 }
-function borrar(){
-    let user = document.getElementById('clientes');
-    var mail = user.options[user.selectedIndex].value;
-    const datos ={
-        email: mail,
+function borrar(id){
+    var mail = document.getElementById('usuario').value;
+    const datos={
+        email:mail
     };
     $.ajax({
-        url:"BorrarUsuarios/",
-        type:"POST",
+        url:"http://127.0.0.1:9000/users/",      
+        type:"DELETE",
         data: datos,//Lo que escriba dentro se pasara al .py como parametro 
         dataType:"json",
         success:function(data){
             if(data.ok!=undefined){
                 Swal.fire({
-                    position: "top-end",
+                    position:"top-end",
                     icon: "success",
-                    title: "Borrado con exito",
+                    title: data.ok,
                     showConfirmButton: false,
                     timer: 2500
                 });
@@ -94,7 +64,7 @@ function borrar(){
             }
         }
         ,error: function () {
-            console.log(data.error)
+
       }
       })
 }

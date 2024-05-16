@@ -54,44 +54,32 @@ $(document).ready(function() {
         $('#modal_anadir').remove();//elimina el div del modal en el html
     })
     $('#guardarAn').click(function(){//Cuando se pulse el boton de cerrar del header se cerrara el modal y lo eliminara del html primcipal
+        
 
-        const datos = { 
-            name: $('#nombreCl').val(), 
-            apellido: $('#apellidoCl').val(), 
+        const datos = {            
+            username:$('#nombreCl').val(),
+            first_name: $('#nombreCl').val(), 
+            last_name: $('#apellidoCl').val(), 
             email: $('#mailCl').val(), 
-            contrasena: $('#contrCL').val(), 
+            password: $('#contrCL').val(), 
                 
         };
         $.ajax({
-            url:"AnadirUsuarios/",
+            url:"http://127.0.0.1:9000/users/",
             type:"POST",
             data: datos,//Lo que escriba dentro se pasara al .py como parametro 
             dataType:"json",
             success:function(data){
+                
                 if(data.error!=undefined){
-                    if(!validarmail($('#mailCl').val())){
                         Swal.fire({
                             icon: "error",
                             title: "Error",
-                            text: "Formato de mail incorrecto",                                
+                            text: data.error,                                
                         });
-                    }
-                    else if(data.error=="El usuario ya existe"){
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "El usuario ya existe",                                
-                        });
-                    }
-                    else if(data.error=="Campos vacios"){
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Hay campos vacios",    
-                        });
-                    }
+                   
                 }
-                else{
+                else {
                     console.log(data)
                     hot.destroy();
                     datos_clientes();
@@ -108,18 +96,13 @@ $(document).ready(function() {
 
             }
             ,error: function () {
-                if(data.error!=undefined){
-                    console.log(data.error)
-                }
-                else{
                     Swal.fire({
                         icon: "warning",
-                        icon: "success",
                         title: "Algo salio mal",
                         showConfirmButton: false,
                         timer: 2500
                     });
-                }
+                
             }
         })  
     })

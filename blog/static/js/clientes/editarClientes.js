@@ -1,27 +1,3 @@
-
-
-function validarmail(mail){
-    
-    a=mail.indexOf('@');
-    b=mail.indexOf('.');
-    console.log(a)
-    console.log(b)
-    console.log()
-    if(a==-1 || b==-1){
-        return false;
-    }
-    else if(a>b || a==b-1){
-        return false;
-    }
-    else if(a==0 || mail.endsWith(".")){
-        return false;
-    }
-    else{
-        return true;
-    }
-    
-}
-
 $(document).ready(function() {
     // $('#modal_editar').modal({backdrop: 'static', keyboard: false})
     setTimeout(function(){
@@ -40,8 +16,9 @@ $(document).ready(function() {
                     }
                 }
             });
+        });
     });
-});
+})
 var id;
 function abrirmodalEditar(row){//Funcion que abre el modal
     $('#modal_editar').modal('show');//abre el modal con ese id
@@ -87,31 +64,30 @@ function Campos(row){
     var adminT=document.getElementById('Admintrue')
     var adminF=document.getElementById('Adminfalse')
     $.ajax({
-        url: "DatosCompletos/",//url de la funcion
+        url:"http://127.0.0.1:9000/tabla/",
         type: "GET",//tipo de transaccion de datos
-        data: {},
+        data: {
+           
+
+        },
         dataType: 'json',//tipo de datos como pasamos un diccionario el tipo es json
         success: function (data) {//ejecuat una funcion que tiene como parametros los datos recogidos
-            if(data.ok!=undefined){//Si los datos no estan vacios genera la tabla
-                user=[data['ok']][0][row]//El primer corchete siempre sera 0 porque es donde  esta la lista con los datos, el segundo corchete marca la posicion de la lista, cada uno es un usauario diferente
-                id=user[6]
+            console.log(data)
+            user=[data['ok']][0][row]//El primer corchete siempre sera 0 porque es donde  esta la lista con los datos, el segundo corchete marca la posicion de la lista, cada uno es un usauario diferente
+            id=parseInt(user[0])
+            console.log(id)
                 //Guarda los datos
-                username.value=user[0]
-                nombre.value=user[1]
-                apellido.value=user[2]
-                mail.value=user[3]
-                contr.value=user[4]
+            username.value=user[1]
+            nombre.value=user[1]
+            apellido.value=user[2]
+            mail.value=user[3]
+            contr.value=user[4]
                 
-                if(value=user[5]){
-                    adminT.checked = true;//Comprueba si es admin y lo pone a true si es correcto
-                }
-                else{
-                    adminF.checked = true;//Comprueba si no es admin y lo pone a true si es correcto
-                }
-                
+            if(value=user[5]){
+                adminT.checked = true;//Comprueba si es admin y lo pone a true si es correcto
             }
             else{
-              
+                adminF.checked = true;//Comprueba si no es admin y lo pone a true si es correcto
             }
     
         },error: function (xhr, ajaxOptions, thrownError) {
@@ -123,8 +99,7 @@ function Campos(row){
       
 }
 
-function Editar(){
-
+function Editar(row){
     var adminT=document.getElementById('Admintrue')
     
     var admin;
@@ -137,14 +112,14 @@ function Editar(){
     datos={
         'id':id,
         'username':document.getElementById('Ed_username').value,
-        'mail':document.getElementById('Ed_mail').value,
+        'email':document.getElementById('Ed_mail').value,
         'first_name':document.getElementById('Ed_nombre').value,
         'last_name':document.getElementById('Ed_apellido').value,
-        'contr':document.getElementById('Ed_contraseña').value,
-        'admin':admin,
+        'password':document.getElementById('Ed_contraseña').value,
+        'is_staff':admin,
     };
     $.ajax({
-        url:"EditarUsuarios/",
+        url:"http://127.0.0.1:9000/editar/",
         type:"POST",
         data: datos,//Lo que escriba dentro se pasara al .py como parametro 
         dataType:"json",

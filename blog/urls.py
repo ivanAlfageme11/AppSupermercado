@@ -1,6 +1,18 @@
 from django.contrib import admin
 from django.urls import path
 from .views import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+
+
+
+router = DefaultRouter()
+router.register(r'Usuarios', views.UserViewset,basename='MyModel')
+router.register(r'Ciudades', views.CiudadesViewset)
+router.register(r'Supers', views.SupersViewset)
+router.register(r'Clientes', views.ClientesViewset)
+router.register(r'Pedidos', views.PedidosViewset)
+
 
 urlpatterns = [
     path('login/', views.Login, name='Login'),
@@ -15,5 +27,10 @@ urlpatterns = [
     path('principal/AnadirUsuarios/',views.crearUser,name='Crear'),
     path('principal/BorrarUsuarios/',views.borrarUser,name='Eliminar'),
     path('principal/EditarUsuarios/',views.editarUser,name='Editar'),
-    path('principal/DatosCompletos/',views.datosCompletos,name='Datos Completos')
+    path('principal/DatosCompletos/',views.datosCompletos,name='Datos Completos'),
+    path('principal/Exportar/',views.crearExcel,name='Excel'),
+    path('usuarios/Editar', views.Editar_Usuario_API.as_view()),
+    path('usuarios/', views.user_list.as_view()),
+    path('usuarios/<int:pk>/', views.user_Detail.as_view()),
+    path('api/',include(router.urls),name='blog'),
 ]
